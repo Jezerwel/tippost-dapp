@@ -1,0 +1,12 @@
+/.env
+/contracts/.env
+
+/contracts/node_modules
+
+/frontend/node_modules
+/frontend/dist
+
+.sisyphus
+
+# Git worktrees
+.worktrees/
