@@ -115,7 +115,9 @@ Edit the `.env` file and add your configuration:
 
 ```env
 # Contract Configuration
-VITE_CONTRACT_ADDRESS=0x538Cd3c96Ab67500b487dD872b9b008169066D6C
+VITE_CONTRACT_ADDRESS=0x...
+
+# Chain ID (11155111 for Sepolia testnet)
 VITE_CHAIN_ID=11155111
 
 # Optional: Alchemy/Infura RPC (for more reliable connections)
@@ -194,7 +196,7 @@ ETHERSCAN_API_KEY=your_etherscan_api_key  # For verification
 
 3. Run the deployment script:
 ```bash
-npx hardhat run scripts/deploy.ts --network sepolia
+npx hardhat ignition deploy ignition/modules/TipPost.ts --network sepolia
 ```
 
 4. Verify the contract on Etherscan:
