@@ -9,14 +9,14 @@ interface PostCardProps {
 }
 
 const PLACEHOLDER_IMAGE =
-  "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjQwMCIgdmlld0JveD0iMCAwIDQwMCA0MDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjQwMCIgaGVpZ2h0PSI0MDAiIGZpbGw9IiMxYTEsMjUiLz48dGV4dCB4PSI1MCUiIHk9IjUwJSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzYwNjA3MCIgZm9udC1mYW1pbHk9InN5c3RlbS11aSIgZm9udC1zaXplPSIxNiI+SW1hZ2Ugbm90IGF2YWlsYWJsZTwvdGV4dD48L3N2Zz4=";
+  "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjQwMCIgdmlld0JveD0iMCAwIDQwMCA0MDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjQwMCIgaGVpZ2h0PSI0MDAiIGZpbGw9IiMxYTFhMWEiLz48dGV4dCB4PSI1MCUiIHk9IjUwJSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzQ0NDQ0NCIgZm9udC1mYW1pbHk9Im1vbm9zcGFjZSIgZm9udC1zaXplPSIxNCIgbGV0dGVyLXNwYWNpbmc9IjIiPklNQUdFIE5PVCBGT1VORDwvdGV4dD48L3N2Zz4=";
 
 export function PostCard({ post, onLikeSuccess }: PostCardProps) {
   const [imageError, setImageError] = useState(false);
+  const [hovered, setHovered] = useState(false);
 
-  // Memoize formatted values to prevent unnecessary re-renders
   const truncatedAddress = useMemo(
-    () => `${post.creator.slice(0, 6)}...${post.creator.slice(-4)}`,
+    () => `${post.creator.slice(0, 6)}…${post.creator.slice(-4)}`,
     [post.creator],
   );
 
@@ -24,6 +24,13 @@ export function PostCard({ post, onLikeSuccess }: PostCardProps) {
     () => ethers.formatEther(post.tipAmount),
     [post.tipAmount],
   );
+
+  const displayEth = useMemo(() => {
+    const num = parseFloat(formattedEth);
+    if (num === 0) return "0";
+    if (num < 0.0001) return "< 0.0001";
+    return num.toFixed(4).replace(/\.?0+$/, "");
+  }, [formattedEth]);
 
   const formattedDate = useMemo(
     () =>
@@ -36,82 +43,118 @@ export function PostCard({ post, onLikeSuccess }: PostCardProps) {
   );
 
   return (
-    <article className="group relative overflow-hidden rounded-xl border border-border bg-surface-elevated transition-all duration-200 hover:border-border-light">
-      {/* Image Container */}
-      <div className="relative aspect-square w-full overflow-hidden bg-surface-hover">
-        {/* Gradient Overlay on Hover */}
-        <div className="pointer-events-none absolute inset-0 z-10 bg-gradient-to-t from-surface-elevated via-transparent to-transparent opacity-0 transition-opacity duration-200 group-hover:opacity-40" />
-
+    <article
+      className="group flex flex-col animate-fade-up"
+      style={{
+        border: `2px solid ${hovered ? "var(--accent)" : "var(--border)"}`,
+        backgroundColor: "var(--elevated)",
+        boxShadow: hovered ? "var(--shadow-brutal)" : "none",
+        transform: hovered ? "translate(-2px, -2px)" : "none",
+        transition: "transform 0.1s ease, box-shadow 0.1s ease, border-color 0.15s ease",
+      }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      {/* ── IMAGE ── */}
+      <div
+        className="relative aspect-square w-full overflow-hidden"
+        style={{ backgroundColor: "var(--hover)" }}
+      >
         <img
           src={imageError ? PLACEHOLDER_IMAGE : post.imageUrl}
           alt={post.caption || "Post image"}
-          className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.02]"
+          className="h-full w-full object-cover"
+          style={{
+            transition: "transform 0.4s ease",
+            transform: hovered ? "scale(1.03)" : "scale(1)",
+          }}
           onError={() => setImageError(true)}
           loading="lazy"
           decoding="async"
         />
 
-        {/* Image Error Fallback */}
         {imageError && (
-          <div className="absolute inset-0 flex items-center justify-center bg-surface-hover">
-            <div className="text-center">
-              <svg
-                className="mx-auto h-12 w-12 text-text-muted"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={1.5}
-                  d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-                />
-              </svg>
-              <p className="mt-2 text-sm text-text-muted">Image unavailable</p>
-            </div>
+          <div
+            className="absolute inset-0 flex flex-col items-center justify-center gap-2"
+            style={{ backgroundColor: "var(--hover)" }}
+          >
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ color: "var(--border-strong)" }}>
+              <rect x="3" y="3" width="18" height="18" rx="2"/>
+              <circle cx="8.5" cy="8.5" r="1.5"/>
+              <polyline points="21 15 16 10 5 21"/>
+            </svg>
+            <span className="font-mono text-xs uppercase tracking-widest" style={{ color: "var(--ink-muted)" }}>
+              Image not found
+            </span>
           </div>
         )}
+
+        {/* Post ID badge */}
+        <div
+          className="absolute left-0 top-0 px-2 py-1 font-mono text-xs"
+          style={{
+            backgroundColor: "var(--bg)",
+            color: "var(--ink-muted)",
+            borderRight: "2px solid var(--border)",
+            borderBottom: "2px solid var(--border)",
+          }}
+        >
+          #{post.id.toString().padStart(4, "0")}
+        </div>
       </div>
 
-      {/* Content */}
-      <div className="relative p-5 sm:p-6">
+      {/* ── CONTENT ── */}
+      <div className="flex flex-1 flex-col p-4">
+
         {/* Caption */}
-        <p className="mb-4 line-clamp-3 text-[0.95rem] leading-relaxed text-text-primary">
+        <p
+          className="mb-4 line-clamp-3 flex-1 text-sm leading-relaxed"
+          style={{ color: "var(--ink)" }}
+        >
           {post.caption}
         </p>
 
-        {/* Author & Date */}
-        <div className="mb-4 flex flex-col gap-2 border-b border-border pb-4 sm:flex-row sm:items-center sm:justify-between">
-          <div className="flex flex-wrap items-center gap-2">
-            <span className="text-sm text-text-secondary">by</span>
-            <code className="rounded-md border border-primary/40 bg-primary/15 px-2 py-0.5 font-mono text-[0.85rem] text-text-accent">
-              {truncatedAddress}
-            </code>
+        {/* Divider */}
+        <div style={{ borderTop: "2px solid var(--border)", marginBottom: "12px" }} />
+
+        {/* Author + date row */}
+        <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
+          <div
+            className="px-2 py-1 font-mono text-xs"
+            style={{
+              border: "2px solid var(--accent-border, rgba(255,79,48,0.35))",
+              backgroundColor: "var(--accent-muted, rgba(255,79,48,0.08))",
+              color: "var(--accent)",
+            }}
+          >
+            {truncatedAddress}
           </div>
           <time
-            className="text-xs text-text-muted sm:text-sm"
+            className="font-mono text-xs"
+            style={{ color: "var(--ink-muted)" }}
             dateTime={new Date(Number(post.timestamp) * 1000).toISOString()}
           >
             {formattedDate}
           </time>
         </div>
 
-        {/* Earnings & Like Button */}
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-          <div className="flex flex-col gap-0.5">
-            <div className="flex items-baseline gap-1.5">
-              <span className="font-mono text-lg font-semibold tabular-nums text-text-primary sm:text-xl">
-                {formattedEth}
-              </span>
-              <span className="text-sm font-medium uppercase tracking-wider text-text-secondary">
-                ETH
-              </span>
-            </div>
-            <span className="text-[0.7rem] font-medium uppercase tracking-wider text-text-muted">
-              earned
+        {/* Earnings + Like */}
+        <div className="flex items-end justify-between gap-3">
+          <div className="flex flex-col">
+            <span
+              className="font-mono text-2xl font-bold leading-none tabular-nums"
+              style={{ color: "var(--ink)" }}
+            >
+              {displayEth}
+            </span>
+            <span
+              className="mt-0.5 font-mono text-xs uppercase tracking-widest"
+              style={{ color: "var(--ink-muted)" }}
+            >
+              ETH EARNED
             </span>
           </div>
+
           <LikeButton
             postId={post.id}
             creator={post.creator}

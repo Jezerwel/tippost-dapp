@@ -1,37 +1,44 @@
-interface SkeletonPostCardProps {
-  count?: number;
+function SkeletonBlock({ width = "100%", height = "16px", className = "" }: { width?: string; height?: string; className?: string }) {
+  return (
+    <div
+      className={`skeleton-shimmer ${className}`}
+      style={{ width, height }}
+    />
+  );
 }
 
-export function SkeletonPostCard({ count = 1 }: SkeletonPostCardProps) {
+export function SkeletonPostCard({ count = 1 }: { count?: number }) {
   return (
     <>
-      {Array.from({ length: count }).map((_, index) => (
+      {Array.from({ length: count }).map((_, i) => (
         <div
-          key={index}
-          className="overflow-hidden rounded-2xl border border-border bg-surface-elevated shadow-md"
+          key={i}
+          style={{
+            border: "2px solid var(--border)",
+            backgroundColor: "var(--elevated)",
+            animationDelay: `${i * 80}ms`,
+          }}
+          className="animate-fade-up"
         >
-          {/* Image Skeleton */}
-          <div className="aspect-square w-full animate-pulse rounded bg-surface-elevated" />
+          {/* Image */}
+          <div className="aspect-square w-full skeleton-shimmer" />
 
-          {/* Content Skeleton */}
-          <div className="p-5 sm:p-6">
-            {/* Caption Lines */}
-            <div className="mb-4 space-y-2">
-              <div className="animate-pulse h-4 w-full rounded-md bg-surface-elevated" />
-              <div className="animate-pulse h-4 w-[90%] rounded-md bg-surface-elevated" />
-              <div className="animate-pulse h-4 w-3/4 rounded-md bg-surface-elevated" />
+          {/* Content */}
+          <div className="p-4">
+            <div className="mb-3 space-y-2">
+              <SkeletonBlock height="14px" />
+              <SkeletonBlock height="14px" width="85%" />
+              <SkeletonBlock height="14px" width="70%" />
             </div>
-
-            {/* Author & Date */}
-            <div className="mb-4 flex justify-between gap-4 border-b border-border pb-4">
-              <div className="animate-pulse h-6 w-[120px] rounded-md bg-surface-elevated" />
-              <div className="animate-pulse h-4 w-20 rounded bg-surface-elevated" />
+            <div style={{ borderTop: "2px solid var(--border)", paddingTop: "12px", marginBottom: "12px" }}>
+              <div className="flex justify-between">
+                <SkeletonBlock height="24px" width="110px" />
+                <SkeletonBlock height="16px" width="70px" />
+              </div>
             </div>
-
-            {/* Earnings & Button */}
-            <div className="flex justify-between gap-4">
-              <div className="animate-pulse h-10 w-[100px] rounded-md bg-surface-elevated" />
-              <div className="animate-pulse h-11 w-[100px] rounded-lg bg-surface-elevated" />
+            <div className="flex justify-between">
+              <SkeletonBlock height="36px" width="80px" />
+              <SkeletonBlock height="38px" width="90px" />
             </div>
           </div>
         </div>
@@ -40,76 +47,68 @@ export function SkeletonPostCard({ count = 1 }: SkeletonPostCardProps) {
   );
 }
 
+export function SkeletonFeed({ count = 6 }: { count?: number }) {
+  return (
+    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
+      <SkeletonPostCard count={count} />
+    </div>
+  );
+}
+
 export function SkeletonForm() {
   return (
-    <div className="flex flex-col gap-6 rounded-2xl border border-border bg-surface-elevated p-8 shadow-md">
-      {/* Title */}
-      <div className="animate-pulse h-8 w-[150px] rounded-md bg-surface-elevated" />
-
-      {/* Image URL Input */}
-      <div>
-        <div className="animate-pulse mb-2 h-12 w-full rounded-xl bg-surface-elevated" />
-        <div className="animate-pulse h-3 w-[30%] rounded bg-surface-elevated" />
+    <div
+      style={{ border: "2px solid var(--border)", backgroundColor: "var(--elevated)" }}
+    >
+      {/* Terminal bar */}
+      <div
+        className="flex items-center gap-2 px-4 py-3"
+        style={{ borderBottom: "2px solid var(--border)", backgroundColor: "var(--hover)" }}
+      >
+        <SkeletonBlock height="12px" width="12px" />
+        <SkeletonBlock height="12px" width="12px" />
+        <SkeletonBlock height="12px" width="12px" />
+        <SkeletonBlock height="10px" width="80px" className="ml-2" />
       </div>
-
-      {/* Caption Input */}
-      <div>
-        <div className="animate-pulse mb-2 h-[120px] w-full rounded-xl bg-surface-elevated" />
-        <div className="animate-pulse h-3 w-[30%] rounded bg-surface-elevated" />
+      <div className="p-5 space-y-4">
+        <SkeletonBlock height="10px" width="120px" />
+        <SkeletonBlock height="44px" />
+        <SkeletonBlock height="44px" />
+        <SkeletonBlock height="100px" />
+        <SkeletonBlock height="52px" />
       </div>
-
-      {/* Submit Button */}
-      <div className="animate-pulse h-12 w-full rounded-xl bg-surface-elevated" />
     </div>
   );
 }
 
 export function SkeletonEarnings() {
   return (
-    <div className="rounded-xl border border-border bg-surface-elevated p-5 shadow-md">
-      {/* Header */}
-      <div className="mb-3 flex items-center gap-2 border-b border-border pb-3">
-        <div className="animate-pulse h-5 w-5 rounded-full bg-surface-elevated" />
-        <div className="animate-pulse h-3.5 w-20 rounded bg-surface-elevated" />
-      </div>
-
-      {/* Amount */}
-      <div className="animate-pulse h-9 w-[120px] rounded-md bg-surface-elevated" />
+    <div
+      className="flex items-center gap-3 px-3 py-2"
+      style={{ border: "2px solid var(--border)", backgroundColor: "var(--elevated)" }}
+    >
+      <SkeletonBlock height="10px" width="50px" />
+      <SkeletonBlock height="20px" width="70px" />
     </div>
   );
 }
 
-export function SkeletonFeed({ count = 6 }: { count?: number }) {
-  return (
-    <div className="grid w-full max-w-5xl grid-cols-1 gap-6 p-2 sm:grid-cols-[repeat(auto-fill,minmax(280px,1fr))] sm:p-4">
-      <SkeletonPostCard count={count} />
-    </div>
-  );
-}
-
-/* Skeleton Card with Pulse Effect */
 export function SkeletonCardEnhanced() {
   return (
-    <div className="overflow-hidden rounded-2xl border border-border bg-surface-elevated shadow-md">
-      {/* Image Placeholder */}
-      <div className="aspect-square w-full animate-pulse rounded bg-surface-elevated" />
-
-      {/* Content */}
-      <div className="p-5 sm:p-6">
-        <div className="mb-4 space-y-2">
-          <div className="animate-pulse h-4 w-full rounded-md bg-surface-elevated" />
-          <div className="animate-pulse h-4 w-[85%] rounded-md bg-surface-elevated" />
-          <div className="animate-pulse h-4 w-[70%] rounded-md bg-surface-elevated" />
+    <div style={{ border: "2px solid var(--border)", backgroundColor: "var(--elevated)" }}>
+      <div className="aspect-square w-full skeleton-shimmer" />
+      <div className="p-4 space-y-3">
+        <SkeletonBlock height="14px" />
+        <SkeletonBlock height="14px" width="80%" />
+        <div style={{ borderTop: "2px solid var(--border)", paddingTop: "12px" }}>
+          <div className="flex justify-between">
+            <SkeletonBlock height="24px" width="100px" />
+            <SkeletonBlock height="16px" width="60px" />
+          </div>
         </div>
-
-        <div className="mb-4 flex justify-between gap-4 border-b border-border pb-4">
-          <div className="animate-pulse h-6 w-[100px] rounded-md bg-surface-elevated" />
-          <div className="animate-pulse h-4 w-16 rounded bg-surface-elevated" />
-        </div>
-
-        <div className="flex justify-between gap-4">
-          <div className="animate-pulse h-10 w-[90px] rounded-md bg-surface-elevated" />
-          <div className="animate-pulse h-11 w-[90px] rounded-lg bg-surface-elevated" />
+        <div className="flex justify-between">
+          <SkeletonBlock height="36px" width="80px" />
+          <SkeletonBlock height="38px" width="90px" />
         </div>
       </div>
     </div>

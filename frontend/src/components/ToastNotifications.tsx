@@ -1,25 +1,16 @@
 import { ToastContainer, type CloseButtonProps } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-function ToastCloseButton({ closeToast, ariaLabel }: CloseButtonProps) {
+function CloseBtn({ closeToast, ariaLabel }: CloseButtonProps) {
   return (
     <button
       type="button"
       onClick={closeToast}
-      className="ml-2 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-text-muted transition hover:bg-background-tertiary hover:text-text-primary"
-      aria-label={ariaLabel ?? "Close notification"}
+      className="ml-2 flex h-7 w-7 shrink-0 items-center justify-center font-mono text-xs"
+      style={{ color: "var(--ink-muted)", background: "none", border: "none", cursor: "pointer" }}
+      aria-label={ariaLabel ?? "Close"}
     >
-      <svg
-        width="14"
-        height="14"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-      >
-        <line x1="18" y1="6" x2="6" y2="18" />
-        <line x1="6" y1="6" x2="18" y2="18" />
-      </svg>
+      ✕
     </button>
   );
 }
@@ -37,9 +28,17 @@ export function ToastNotifications() {
       draggable
       pauseOnHover
       theme="dark"
-      toastClassName="toast-success:!border-l-success toast-error:!border-l-error !rounded-xl !border !border-border !bg-surface !font-sans !text-sm !text-text-primary !shadow-xl !border-l-4"
-      progressClassName="!bg-gradient-to-r !from-primary !to-violet-500"
-      closeButton={ToastCloseButton}
+      style={{ fontFamily: "DM Sans, ui-sans-serif" }}
+      toastStyle={{
+        background: "var(--elevated)",
+        color: "var(--ink)",
+        border: "2px solid var(--border-strong)",
+        borderRadius: "0px",
+        boxShadow: "4px 4px 0px var(--border-strong)",
+        fontSize: "0.875rem",
+      }}
+      progressClassName="!bg-[#FF4F30]"
+      closeButton={CloseBtn}
     />
   );
 }
