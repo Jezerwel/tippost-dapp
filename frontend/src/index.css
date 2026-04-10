@@ -11,8 +11,9 @@
     /* Accent — always coral */
     --accent:         #FF4F30;
     --accent-hover:   #E83A1A;
-    --accent-muted:   rgba(255, 79, 48, 0.12);
-    --accent-border:  rgba(255, 79, 48, 0.35);
+    --accent-muted:   rgba(255, 79, 48, 0.10);
+    --accent-border:  rgba(255, 79, 48, 0.30);
+    --accent-glow:    rgba(255, 79, 48, 0.18);
 
     /* Semantic */
     --clr-success:    #22C55E;
@@ -20,38 +21,43 @@
     --clr-warning:    #F59E0B;
 
     /* Dark theme (default) */
-    --bg:             #080808;
-    --surface:        #111111;
-    --elevated:       #1A1A1A;
-    --hover:          #222222;
-    --active:         #2A2A2A;
-    --border:         #2A2A2A;
-    --border-strong:  #444444;
-    --ink:            #F2F2F2;
-    --ink-dim:        #888888;
-    --ink-muted:      #555555;
+    --bg:             #060606;
+    --surface:        #0E0E0E;
+    --elevated:       #161616;
+    --hover:          #1E1E1E;
+    --active:         #262626;
+    --border:         #242424;
+    --border-strong:  #404040;
+    --ink:            #F0F0F0;
+    --ink-dim:        #808080;
+    --ink-muted:      #484848;
 
     /* Offset shadow for brutalist elements */
     --shadow-brutal:    4px 4px 0px var(--accent);
     --shadow-brutal-sm: 2px 2px 0px var(--accent);
     --shadow-brutal-lg: 6px 6px 0px var(--accent);
 
+    /* Dot grid */
+    --dot-color:      rgba(255, 255, 255, 0.055);
+
     /* Skeleton shimmer colors */
-    --shimmer-base: #1A1A1A;
-    --shimmer-peak: #252525;
+    --shimmer-base: #161616;
+    --shimmer-peak: #222222;
   }
 
   [data-theme="light"] {
-    --bg:             #F2EDE7;
-    --surface:        #FAF6F1;
+    --bg:             #F5F0EA;
+    --surface:        #FAF7F3;
     --elevated:       #FFFFFF;
     --hover:          #EDE8E2;
-    --active:         #E5E0DA;
-    --border:         #1E1E1E;
-    --border-strong:  #0A0A0A;
-    --ink:            #0A0A0A;
-    --ink-dim:        #555555;
+    --active:         #E4DED8;
+    --border:         #1A1A1A;
+    --border-strong:  #080808;
+    --ink:            #080808;
+    --ink-dim:        #4A4A4A;
     --ink-muted:      #888888;
+
+    --dot-color:      rgba(0, 0, 0, 0.07);
 
     --shimmer-base: #E8E3DD;
     --shimmer-peak: #F2EDE7;
@@ -165,7 +171,7 @@
 }
 
 @keyframes fade-up {
-  from { opacity: 0; transform: translateY(14px); }
+  from { opacity: 0; transform: translateY(18px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
@@ -215,6 +221,26 @@
 @keyframes count-up {
   from { opacity: 0; transform: translateY(6px); }
   to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes ticker-scroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes glow-pulse {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50%       { opacity: 1;   transform: scale(1.05); }
+}
+
+@keyframes line-grow {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+
+@keyframes counter-in {
+  from { opacity: 0; transform: translateY(8px) scale(0.95); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
 }
 
 /* ============================================================
@@ -328,11 +354,78 @@
   .stagger > *:nth-child(8) { animation-delay: 560ms; }
 
   /* Error in */
-  .animate-error-in  { animation: shake 0.4s ease; }
+  .animate-error-in    { animation: shake 0.4s ease; }
   .animate-error-shake { animation: shake 0.4s ease; }
-  .animate-glow-pulse { animation: pulse 2s ease infinite; }
-  .animate-float      { animation: pulse 3s ease infinite; }
-  .animate-heart-beat { animation: pulse 1s ease infinite; }
-  .animate-scale-in   { animation: fade-up 0.3s ease-out forwards; }
-  .animate-ping       { animation: pulse 1.5s ease infinite; }
+  .animate-glow-pulse  { animation: glow-pulse 3s ease infinite; }
+  .animate-float       { animation: pulse 3s ease infinite; }
+  .animate-heart-beat  { animation: pulse 1s ease infinite; }
+  .animate-scale-in    { animation: fade-up 0.3s ease-out forwards; }
+  .animate-ping        { animation: pulse 1.5s ease infinite; }
+  .animate-ticker      { animation: ticker-scroll 28s linear infinite; }
+  .animate-line-grow   { animation: line-grow 0.6s ease-out forwards; }
+  .animate-counter-in  { animation: counter-in 0.5s ease-out forwards; }
+
+  /* ── Dot grid background ── */
+  .dot-grid {
+    background-image: radial-gradient(circle, var(--dot-color) 1px, transparent 1px);
+    background-size: 28px 28px;
+  }
+
+  /* ── Noise texture overlay ── */
+  .noise-overlay::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 256px 256px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── Accent corner bracket decoration ── */
+  .bracket-corner {
+    position: relative;
+  }
+  .bracket-corner::before,
+  .bracket-corner::after {
+    content: "";
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-color: var(--accent);
+    border-style: solid;
+  }
+  .bracket-corner::before {
+    top: -1px;
+    left: -1px;
+    border-width: 2px 0 0 2px;
+  }
+  .bracket-corner::after {
+    bottom: -1px;
+    right: -1px;
+    border-width: 0 2px 2px 0;
+  }
+
+  /* ── Horizontal rule with accent ── */
+  .rule-accent {
+    border: none;
+    height: 1px;
+    background: linear-gradient(90deg, var(--accent) 0%, transparent 100%);
+    transform-origin: left center;
+  }
+
+  /* ── Ticket-style card ── */
+  .ticket-edge {
+    position: relative;
+  }
+  .ticket-edge::before {
+    content: "";
+    position: absolute;
+    left: -1px;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: var(--accent);
+  }
 }
