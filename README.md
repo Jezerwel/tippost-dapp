@@ -115,7 +115,9 @@ Edit the `.env` file and add your configuration:
 
 ```env
 # Contract Configuration
-VITE_CONTRACT_ADDRESS=0x538Cd3c96Ab67500b487dD872b9b008169066D6C
+VITE_CONTRACT_ADDRESS=0x...
+
+# Chain ID (11155111 for Sepolia testnet)
 VITE_CHAIN_ID=11155111
 
 # Optional: Alchemy/Infura RPC (for more reliable connections)
