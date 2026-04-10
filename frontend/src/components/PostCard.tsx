@@ -7,13 +7,14 @@ const LIKE_COST_WEI = ethers.parseEther("0.0001");
 
 interface PostCardProps {
   post: Post;
+  onClick?: () => void;
   onLikeSuccess?: () => void;
 }
 
 const PLACEHOLDER_IMAGE =
   "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjQwMCIgdmlld0JveD0iMCAwIDQwMCA0MDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjQwMCIgaGVpZ2h0PSI0MDAiIGZpbGw9IiMxYTFhMWEiLz48dGV4dCB4PSI1MCUiIHk9IjUwJSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzQ0NDQ0NCIgZm9udC1mYW1pbHk9Im1vbm9zcGFjZSIgZm9udC1zaXplPSIxNCIgbGV0dGVyLXNwYWNpbmc9IjIiPklNQUdFIE5PVCBGT1VORDwvdGV4dD48L3N2Zz4=";
 
-export function PostCard({ post, onLikeSuccess }: PostCardProps) {
+export function PostCard({ post, onClick, onLikeSuccess }: PostCardProps) {
   const [imageError, setImageError] = useState(false);
   const [hovered, setHovered] = useState(false);
   const [optimisticLiked, setOptimisticLiked] = useState(false);
@@ -59,7 +60,9 @@ export function PostCard({ post, onLikeSuccess }: PostCardProps) {
         boxShadow: hovered ? "var(--shadow-brutal)" : "none",
         transform: hovered ? "translate(-2px, -2px)" : "none",
         transition: "transform 0.1s ease, box-shadow 0.1s ease, border-color 0.15s ease",
+        cursor: onClick ? "pointer" : "default",
       }}
+      onClick={onClick}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
@@ -164,8 +167,11 @@ export function PostCard({ post, onLikeSuccess }: PostCardProps) {
             </span>
           </div>
 
-          {/* Like count + button stacked */}
-          <div className="flex flex-col items-end gap-1.5">
+          {/* Like count + button — stop propagation so card click doesn't fire */}
+          <div
+            className="flex flex-col items-end gap-1.5"
+            onClick={(e) => e.stopPropagation()}
+          >
             <span
               className="font-mono text-xs tabular-nums"
               style={{

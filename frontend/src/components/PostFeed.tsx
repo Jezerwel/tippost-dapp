@@ -3,6 +3,7 @@ import { ethers } from "ethers";
 import { useApp } from "@/context/AppContext";
 import { CONTRACT_ABI, CONTRACT_ADDRESS } from "@/config";
 import { PostCard } from "./PostCard";
+import { PostModal } from "./PostModal";
 import { SkeletonFeed } from "./SkeletonLoader";
 import type { Post } from "@/types";
 
@@ -10,6 +11,7 @@ export function PostFeed() {
   const { state, dispatch } = useApp();
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [selectedPost, setSelectedPost] = useState<Post | null>(null);
   const postsRef = useRef(state.posts);
   postsRef.current = state.posts;
 
@@ -178,14 +180,28 @@ export function PostFeed() {
   }
 
   return (
-    <div className="stagger grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
-      {state.posts.map((post) => (
-        <PostCard
-          key={post.id.toString()}
-          post={post}
-          onLikeSuccess={() => fetchPosts(true)}
+    <>
+      <div className="stagger grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
+        {state.posts.map((post) => (
+          <PostCard
+            key={post.id.toString()}
+            post={post}
+            onClick={() => setSelectedPost(post)}
+            onLikeSuccess={() => fetchPosts(true)}
+          />
+        ))}
+      </div>
+
+      {selectedPost && (
+        <PostModal
+          post={selectedPost}
+          onClose={() => setSelectedPost(null)}
+          onLikeSuccess={() => {
+            fetchPosts(true);
+            // Keep modal open but reflect updated data when it arrives
+          }}
         />
-      ))}
-    </div>
+      )}
+    </>
   );
 }
