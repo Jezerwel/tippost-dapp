@@ -51,7 +51,7 @@ The TipPost smart contract is deployed on the Sepolia testnet:
 
 ## Live Demo
 
-**Deployed Frontend:** [https://tippost-dapp.vercel.app](https://tippost-dapp.vercel.app) *(placeholder)*
+**Deployed Frontend:** [https://tippost-grino.vercel.app](https://tippost-grino.vercel.app/)
 
 ## Getting Started
 
