@@ -17,7 +17,7 @@ export const SEPOLIA_RPC_URL = import.meta.env.VITE_SEPOLIA_RPC_URL || 'https://
 export const SEPOLIA_WSS_URL = import.meta.env.VITE_SEPOLIA_WSS_URL || 'wss://rpc.sepolia.org';
 
 // Minimum tip amount in ETH
-export const MINIMUM_TIP_ETH = '0.001';
+export const MINIMUM_TIP_ETH = '0.0001';
 
 // Helper to create contract instance
 export function createContract(signer: ethers.Signer): ethers.Contract {

@@ -180,7 +180,11 @@ export function PostFeed() {
   return (
     <div className="stagger grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
       {state.posts.map((post) => (
-        <PostCard key={post.id.toString()} post={post} />
+        <PostCard
+          key={post.id.toString()}
+          post={post}
+          onLikeSuccess={() => fetchPosts(true)}
+        />
       ))}
     </div>
   );

@@ -3,6 +3,8 @@ import { ethers } from "ethers";
 import type { Post } from "@/types";
 import { LikeButton } from "./LikeButton";
 
+const LIKE_COST_WEI = ethers.parseEther("0.0001");
+
 interface PostCardProps {
   post: Post;
   onLikeSuccess?: () => void;
@@ -14,6 +16,7 @@ const PLACEHOLDER_IMAGE =
 export function PostCard({ post, onLikeSuccess }: PostCardProps) {
   const [imageError, setImageError] = useState(false);
   const [hovered, setHovered] = useState(false);
+  const [optimisticLiked, setOptimisticLiked] = useState(false);
 
   const truncatedAddress = useMemo(
     () => `${post.creator.slice(0, 6)}…${post.creator.slice(-4)}`,
@@ -27,10 +30,15 @@ export function PostCard({ post, onLikeSuccess }: PostCardProps) {
 
   const displayEth = useMemo(() => {
     const num = parseFloat(formattedEth);
-    if (num === 0) return "0";
-    if (num < 0.0001) return "< 0.0001";
-    return num.toFixed(4).replace(/\.?0+$/, "");
+    if (num === 0) return "0.0000";
+    if (num < 0.00001) return "< 0.0001";
+    return num.toFixed(4);
   }, [formattedEth]);
+
+  const likeCount = useMemo(() => {
+    const count = post.tipAmount / LIKE_COST_WEI;
+    return Number(count) + (optimisticLiked ? 1 : 0);
+  }, [post.tipAmount, optimisticLiked]);
 
   const formattedDate = useMemo(
     () =>
@@ -140,6 +148,7 @@ export function PostCard({ post, onLikeSuccess }: PostCardProps) {
 
         {/* Earnings + Like */}
         <div className="flex items-end justify-between gap-3">
+          {/* ETH earned stat */}
           <div className="flex flex-col">
             <span
               className="font-mono text-2xl font-bold leading-none tabular-nums"
@@ -155,11 +164,25 @@ export function PostCard({ post, onLikeSuccess }: PostCardProps) {
             </span>
           </div>
 
-          <LikeButton
-            postId={post.id}
-            creator={post.creator}
-            onLikeSuccess={onLikeSuccess}
-          />
+          {/* Like count + button stacked */}
+          <div className="flex flex-col items-end gap-1.5">
+            <span
+              className="font-mono text-xs tabular-nums"
+              style={{
+                color: optimisticLiked ? "var(--clr-success, #22C55E)" : "var(--ink-muted)",
+              }}
+            >
+              {likeCount} {likeCount === 1 ? "like" : "likes"}
+            </span>
+            <LikeButton
+              postId={post.id}
+              creator={post.creator}
+              onLikeSuccess={() => {
+                setOptimisticLiked(true);
+                onLikeSuccess?.();
+              }}
+            />
+          </div>
         </div>
       </div>
     </article>
