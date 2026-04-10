@@ -234,7 +234,6 @@ vercel --prod
 |----------|----------|-------------|
 | `VITE_CONTRACT_ADDRESS` | Yes | Deployed TipPost contract address |
 | `VITE_CHAIN_ID` | Yes | Chain ID (11155111 for Sepolia) |
-| `VITE_RPC_URL` | No | Custom RPC URL for better reliability |
 
 ### Contracts (.env)
 
