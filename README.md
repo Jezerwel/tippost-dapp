@@ -38,12 +38,12 @@ The platform runs entirely on-chain, meaning no central authority controls your 
 
 The TipPost smart contract is deployed on the Sepolia testnet:
 
-**Contract Address:** `0x538Cd3c96Ab67500b487dD872b9b008169066D6C`
+**Contract Address:** `0x6b9088A547A650E9fD01Def9173652af5B8146cF`
 
-**Etherscan (Sepolia):** [View on Etherscan](https://sepolia.etherscan.io/address/0x538Cd3c96Ab67500b487dD872b9b008169066D6C)
+**Etherscan (Sepolia):** [View on Etherscan](https://sepolia.etherscan.io/address/0x6b9088A547A650E9fD01Def9173652af5B8146cF)
 
 ### Contract Features
-- Minimum tip amount: 0.001 ETH
+- Minimum tip amount: 0.0001 ETH
 - Maximum caption length: 280 characters
 - Gas-optimized storage with packed structs
 - CEI (Checks-Effects-Interactions) pattern for security
@@ -119,9 +119,6 @@ VITE_CONTRACT_ADDRESS=0x...
 
 # Chain ID (11155111 for Sepolia testnet)
 VITE_CHAIN_ID=11155111
-
-# Optional: Alchemy/Infura RPC (for more reliable connections)
-# VITE_RPC_URL=https://eth-sepolia.g.alchemy.com/v2/YOUR_API_KEY
 ```
 
 ### 4. Run the Frontend Locally
