@@ -5,7 +5,7 @@ import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 
 contract TipPost is ReentrancyGuard {
     // ============ CONSTANTS ============
-    uint256 public constant LIKEMINIMUM_COST = 0.001 ether;
+    uint256 public constant LIKEMINIMUM_COST = 0.0001 ether;
     uint256 public constant MAX_CAPTION_LENGTH = 280;
 
     // ============ STRUCTS ============
