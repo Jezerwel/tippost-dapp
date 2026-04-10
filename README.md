@@ -196,7 +196,7 @@ ETHERSCAN_API_KEY=your_etherscan_api_key  # For verification
 
 3. Run the deployment script:
 ```bash
-npx hardhat run scripts/deploy.ts --network sepolia
+npx hardhat ignition deploy ignition/modules/TipPost.ts --network sepolia
 ```
 
 4. Verify the contract on Etherscan:
