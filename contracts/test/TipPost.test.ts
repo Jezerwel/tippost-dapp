@@ -45,7 +45,7 @@ describe("TipPost", function () {
       // First, create a post
       await contract.connect(addr1).createPost("https://example.com/image.jpg", "Test caption");
       
-      const tipAmount = ethers.parseEther("0.001");
+      const tipAmount = ethers.parseEther("0.0001");
       
       // Like the post with ETH tip
       await expect(contract.connect(addr2).likePost(1, { value: tipAmount }))
@@ -65,7 +65,7 @@ describe("TipPost", function () {
       
       // Try to like own post - should revert
       await expect(
-        contract.connect(addr1).likePost(1, { value: ethers.parseEther("0.001") })
+        contract.connect(addr1).likePost(1, { value: ethers.parseEther("0.0001") })
       ).to.be.revertedWithCustomError(contract, "CannotLikeOwnPost");
     });
 
@@ -76,11 +76,11 @@ describe("TipPost", function () {
       await contract.connect(addr1).createPost("https://example.com/image.jpg", "Test caption");
       
       // Like the post once
-      await contract.connect(addr2).likePost(1, { value: ethers.parseEther("0.001") });
+      await contract.connect(addr2).likePost(1, { value: ethers.parseEther("0.0001") });
       
       // Try to like again - should revert
       await expect(
-        contract.connect(addr2).likePost(1, { value: ethers.parseEther("0.001") })
+        contract.connect(addr2).likePost(1, { value: ethers.parseEther("0.0001") })
       ).to.be.revertedWithCustomError(contract, "AlreadyLiked");
     });
   });

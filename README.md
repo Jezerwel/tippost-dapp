@@ -11,7 +11,7 @@ The platform runs entirely on-chain, meaning no central authority controls your 
 ## Features
 
 - **Create Posts**: Share images with captions (up to 280 characters)
-- **Pay-to-Like**: Show appreciation by sending ETH tips (minimum 0.001 ETH)
+- **Pay-to-Like**: Show appreciation by sending ETH tips (minimum 0.0001 ETH)
 - **Instant Earnings**: Creators receive tips directly to their wallet
 - **No Platform Fees**: 100% of tips go to creators
 - **Transparent History**: All posts and tips stored on-chain
