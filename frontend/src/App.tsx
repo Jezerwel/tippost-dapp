@@ -202,7 +202,7 @@ function WelcomeScreen() {
       num: "01",
       label: "INSTANT TIPS",
       desc: "Every like is an on-chain payment. ETH lands in the creator's wallet, not ours.",
-      accent: "Ξ 0.001",
+      accent: "Ξ 0.0001",
     },
     {
       num: "02",
@@ -290,7 +290,7 @@ function WelcomeScreen() {
             className="animate-fade-up mb-10 font-mono text-xs uppercase tracking-widest"
             style={{ animationDelay: "300ms", color: "var(--ink-muted)" }}
           >
-            0.001 Ξ per like &nbsp;·&nbsp; 100% to creator &nbsp;·&nbsp; zero fees
+            0.0001 Ξ per like &nbsp;·&nbsp; 100% to creator &nbsp;·&nbsp; zero fees
           </p>
 
           {/* CTA */}
@@ -388,7 +388,7 @@ function WelcomeScreen() {
       >
         <div className="mx-auto grid max-w-5xl grid-cols-3 px-6 py-10 sm:py-12">
           {[
-            { value: "0.001 Ξ", label: "Cost per like" },
+            { value: "0.0001 Ξ", label: "Cost per like" },
             { value: "100%",    label: "To creators" },
             { value: "0%",      label: "Platform fee" },
           ].map((s, i) => (
