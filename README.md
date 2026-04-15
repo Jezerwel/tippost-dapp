@@ -1,309 +1,208 @@
-# TipPost - Pay-to-Like Social Platform
+# TipPost - Pay-to-Like Social dApp
 
-A decentralized social platform where users create posts with images and captions, and others show appreciation by tipping ETH. Built with Solidity, React, and ethers.js on the Sepolia testnet.
+TipPost is a decentralized social app where each like is an ETH tip.  
+Creators publish image posts, and supporters tip directly on-chain (Sepolia) with no platform fee.
 
-## What is TipPost?
+## What You Can Do
 
-TipPost reimagines social media engagement by combining content sharing with real value transfer. Instead of just clicking a like button, users send ETH tips to creators they appreciate. Every like becomes a direct financial contribution.
-
-The platform runs entirely on-chain, meaning no central authority controls your content or earnings. Creators receive 100% of the tips sent to their posts instantly, with no platform fees or withdrawal delays.
-
-## Features
-
-- **Create Posts**: Share images with captions (up to 280 characters)
-- **Pay-to-Like**: Show appreciation by sending ETH tips (minimum 0.0001 ETH)
-- **Instant Earnings**: Creators receive tips directly to their wallet
-- **No Platform Fees**: 100% of tips go to creators
-- **Transparent History**: All posts and tips stored on-chain
-- **Anti-Gaming Protection**: Prevent self-liking and duplicate likes
-- **Real-time Updates**: UI reflects blockchain state changes immediately
-- **Wallet Integration**: Seamless MetaMask connection
+- Connect MetaMask and switch to Sepolia
+- Create image posts with captions (up to 280 chars)
+- Like a post by tipping `0.0001 ETH` minimum
+- Prevent self-like and duplicate-like actions
+- View posts and creator earnings in real time
+- Track transactions via Sepolia Etherscan links in the UI
 
 ## Tech Stack
 
 | Layer | Technology |
-|-------|------------|
-| **Smart Contract** | Solidity ^0.8.28 |
-| **Contract Framework** | Hardhat |
-| **Security** | OpenZeppelin ReentrancyGuard |
-| **Frontend** | React 19 + TypeScript |
-| **Styling** | Tailwind CSS v4 (utility-first, `@tailwindcss/vite`) |
-| **Build Tool** | Vite 8 |
-| **Web3 Library** | ethers.js v6 |
-| **UI Notifications** | react-toastify |
-| **Network** | Sepolia Testnet |
-| **Wallet** | MetaMask |
+| --- | --- |
+| Smart contracts | Solidity `0.8.28`, OpenZeppelin `ReentrancyGuard` |
+| Ethereum dev tooling | Hardhat, Hardhat Ignition, TypeChain |
+| Frontend | React 19 + TypeScript + Vite |
+| Web3 integration | ethers.js v6 |
+| Styling/UI | Tailwind CSS v4, react-toastify |
+| Network | Sepolia testnet |
 
-## Smart Contract
+## Live Deployment
 
-The TipPost smart contract is deployed on the Sepolia testnet:
+- Frontend: [https://tippost-grino.vercel.app](https://tippost-grino.vercel.app)
+- Contract (Sepolia): `0x6b9088A547A650E9fD01Def9173652af5B8146cF`
+- Etherscan: [View contract](https://sepolia.etherscan.io/address/0x6b9088A547A650E9fD01Def9173652af5B8146cF)
 
-**Contract Address:** `0x6b9088A547A650E9fD01Def9173652af5B8146cF`
+## Prerequisites
 
-**Etherscan (Sepolia):** [View on Etherscan](https://sepolia.etherscan.io/address/0x6b9088A547A650E9fD01Def9173652af5B8146cF)
+- Node.js 18+
+- npm
+- MetaMask extension
+- Sepolia ETH for testing
 
-### Contract Features
-- Minimum tip amount: 0.0001 ETH
-- Maximum caption length: 280 characters
-- Gas-optimized storage with packed structs
-- CEI (Checks-Effects-Interactions) pattern for security
-- Custom errors for gas efficiency
+## Quick Start (Frontend + Deployed Contract)
 
-## Live Demo
-
-**Deployed Frontend:** [https://tippost-grino.vercel.app](https://tippost-grino.vercel.app/)
-
-## Getting Started
-
-### Prerequisites
-
-Before running this project, ensure you have:
-
-1. **Node.js** (v18 or higher) - [Download here](https://nodejs.org/)
-2. **MetaMask** browser extension - [Download here](https://metamask.io/)
-3. **Sepolia ETH** for testing - See [Getting Sepolia ETH](#getting-sepolia-eth) section
-
-### Install MetaMask
-
-1. Install the MetaMask extension for your browser
-2. Create a new wallet or import an existing one
-3. Switch to the Sepolia testnet (it should appear in the network dropdown)
-4. If Sepolia is not visible, add it manually:
-   - Network Name: Sepolia
-   - RPC URL: https://rpc.sepolia.org
-   - Chain ID: 11155111
-   - Currency Symbol: ETH
-   - Block Explorer: https://sepolia.etherscan.io
-
-## Running Locally
-
-Follow these steps to run the project on your local machine:
-
-### 1. Clone the Repository
+1. Clone the repo
 
 ```bash
 git clone https://github.com/yourusername/tippost-dapp.git
 cd tippost-dapp
 ```
 
-### 2. Install Dependencies
+2. Install dependencies
 
-Install contract dependencies:
 ```bash
-cd contracts
-npm install
+cd contracts && npm install
+cd ../frontend && npm install
 cd ..
 ```
 
-Install frontend dependencies:
-```bash
-cd frontend
-npm install
-cd ..
-```
-
-### 3. Set Up Environment Variables
-
-Create a `.env` file in the `frontend` directory:
+3. Configure frontend env
 
 ```bash
 cd frontend
 cp .env.example .env
 ```
 
-Edit the `.env` file and add your configuration:
+Edit `frontend/.env`:
 
 ```env
-# Contract Configuration
-VITE_CONTRACT_ADDRESS=0x...
-
-# Chain ID (11155111 for Sepolia testnet)
+VITE_CONTRACT_ADDRESS=0x6b9088A547A650E9fD01Def9173652af5B8146cF
 VITE_CHAIN_ID=11155111
 ```
 
-### 4. Run the Frontend Locally
+4. Run the frontend
 
 ```bash
 cd frontend
 npm run dev
 ```
 
-The application will be available at `http://localhost:5173`
+Open `http://localhost:5173`, connect MetaMask, and use Sepolia.
 
-### 5. Connect Your Wallet
+## Contract Development
 
-1. Open the app in your browser
-2. Click "Connect Wallet" button
-3. Approve the connection in MetaMask
-4. Ensure you are on the Sepolia testnet
+From `contracts/`:
 
-## Testing
-
-Run the Hardhat test suite to verify contract functionality:
+### Compile
 
 ```bash
-cd contracts
-npx hardhat test
+npm run compile
 ```
 
-### Test Coverage
-
-The test suite covers:
-- Post creation with valid data
-- Post creation validation (empty URL, long captions)
-- Liking posts with various tip amounts
-- Error cases (insufficient tips, duplicate likes, self-liking)
-- Earnings tracking verification
-- Event emission validation
-
-### Run Tests with Coverage
+### Test
 
 ```bash
-npx hardhat coverage
+npm test
 ```
 
-### Run Tests on Local Network
+### Clean artifacts
 
-Start a local Hardhat node:
 ```bash
-npx hardhat node
+npm run clean
 ```
 
-In another terminal, run tests against the local node:
-```bash
-npx hardhat test --network localhost
-```
+### Deploy to Sepolia (Ignition)
 
-## Deployment
+1. Create env file
 
-### Deploy the Smart Contract
-
-1. Set up your deployment private key:
 ```bash
 cd contracts
 cp .env.example .env
 ```
 
-2. Edit `.env` and add:
+2. Set values in `contracts/.env`
+
 ```env
 SEPOLIA_RPC_URL=https://eth-sepolia.g.alchemy.com/v2/YOUR_API_KEY
-PRIVATE_KEY=your_private_key_here  # Never commit this!
-ETHERSCAN_API_KEY=your_etherscan_api_key  # For verification
+PRIVATE_KEY=0xYOUR_PRIVATE_KEY_HERE
+ETHERSCAN_API_KEY=YOUR_ETHERSCAN_API_KEY
 ```
 
-3. Run the deployment script:
+3. Deploy
+
 ```bash
 npx hardhat ignition deploy ignition/modules/TipPost.ts --network sepolia
 ```
 
-4. Verify the contract on Etherscan:
+4. (Optional) Verify
+
 ```bash
 npx hardhat verify --network sepolia DEPLOYED_CONTRACT_ADDRESS
 ```
 
-### Deploy the Frontend
+## ABI Sync Workflow (Contract -> Frontend)
 
-The frontend can be deployed to any static hosting service. For Vercel:
+When contract ABI changes:
 
-1. Install Vercel CLI:
 ```bash
-npm i -g vercel
+cd contracts
+npm run compile
+npx ts-node scripts/extractAbi.ts
 ```
 
-2. Deploy:
-```bash
-cd frontend
-vercel
-```
+This updates `frontend/src/abi/TipPost.json`.
 
-3. Set environment variables in Vercel dashboard:
-   - Go to Project Settings > Environment Variables
-   - Add `VITE_CONTRACT_ADDRESS` with your deployed contract address
-   - Add `VITE_CHAIN_ID` as `11155111`
+## Frontend Environment Variables
 
-4. Redeploy with new environment variables:
-```bash
-vercel --prod
-```
+`frontend/.env.example` currently includes:
 
-## Environment Variables
+- `VITE_CONTRACT_ADDRESS` (required)
+- `VITE_CHAIN_ID` (used in part of frontend config)
 
-### Frontend (.env)
+The frontend also supports optional RPC overrides:
 
-| Variable | Required | Description |
-|----------|----------|-------------|
-| `VITE_CONTRACT_ADDRESS` | Yes | Deployed TipPost contract address |
-| `VITE_CHAIN_ID` | Yes | Chain ID (11155111 for Sepolia) |
+- `VITE_SEPOLIA_RPC_URL` (optional)
+- `VITE_SEPOLIA_WSS_URL` (optional)
 
-### Contracts (.env)
+## Current Smart Contract Rules
 
-| Variable | Required | Description |
-|----------|----------|-------------|
-| `SEPOLIA_RPC_URL` | Yes | Sepolia network RPC endpoint |
-| `PRIVATE_KEY` | Yes | Deployer wallet private key |
-| `ETHERSCAN_API_KEY` | No | For contract verification |
+- Minimum tip: `0.0001 ether` (`LIKEMINIMUM_COST`)
+- Max caption length: `280` (`MAX_CAPTION_LENGTH`)
+- Reverts for:
+  - empty image URL
+  - invalid post id
+  - self-like
+  - duplicate like
+  - failed transfer
 
-**Security Warning:** Never commit `.env` files containing real private keys. The `.env` files are included in `.gitignore` by default.
+## Test Coverage (Current Suite)
 
-## Getting Sepolia ETH
+The existing test file validates:
 
-You need Sepolia test ETH to interact with the contract. Here are free faucets:
-
-### Official Faucets
-
-1. **Alchemy Sepolia Faucet**
-   - URL: https://sepoliafaucet.com/
-   - Amount: 0.5 ETH per day
-   - Requires: Free Alchemy account
-
-2. **Infura Sepolia Faucet**
-   - URL: https://www.infura.io/faucet/sepolia
-   - Amount: 0.5 ETH per day
-   - Requires: Free Infura account
-
-3. **Google Cloud Faucet**
-   - URL: https://cloud.google.com/application/web3/faucet/ethereum/sepolia
-   - Amount: 0.05 ETH per day
-   - Requires: Google account
-
-### Alternative Faucets
-
-4. **QuickNode Sepolia Faucet**
-   - URL: https://faucet.quicknode.com/ethereum/sepolia
-   - Amount: 0.05 ETH
-   - Requires: QuickNode account
-
-5. **PoW Faucet (No signup)**
-   - URL: https://sepolia-faucet.pk910.de/
-   - Amount: Variable (mine in browser)
-   - Requires: Just your wallet address
-
-### Using the Faucet
-
-1. Copy your MetaMask wallet address (0x...)
-2. Visit one of the faucets above
-3. Paste your address and request ETH
-4. Wait 30-60 seconds for the transaction to confirm
-5. Check your MetaMask balance on Sepolia network
+- Post creation and `PostCreated` event emission
+- Successful post liking with ETH tip
+- Revert on self-like
+- Revert on duplicate-like
 
 ## Project Structure
 
-```
+```text
 tippost-dapp/
-├── contracts/              # Smart contract code
-│   ├── contracts/
-│   │   └── TipPost.sol    # Main contract
-│   ├── test/              # Contract tests
-│   ├── scripts/           # Deployment scripts
-│   └── hardhat.config.ts  # Hardhat configuration
-├── frontend/              # React frontend
+├── contracts/
+│   ├── contracts/TipPost.sol
+│   ├── test/TipPost.test.ts
+│   ├── ignition/modules/TipPost.ts
+│   ├── scripts/extractAbi.ts
+│   └── hardhat.config.ts
+├── frontend/
 │   ├── src/
-│   │   ├── components/    # React components
-│   │   ├── hooks/         # Custom React hooks
-│   │   ├── utils/         # Utility functions
-│   │   └── types/         # TypeScript types
-│   └── vite.config.ts     # Vite configuration
-└── .sisyphus/             # Project documentation
+│   │   ├── components/
+│   │   ├── hooks/
+│   │   ├── context/
+│   │   ├── config/
+│   │   └── abi/TipPost.json
+│   └── .env.example
+└── README.md
 ```
 
-**Note:** This is a testnet application. Do not use mainnet ETH. Always verify you are connected to the Sepolia testnet before making transactions.
+## Getting Sepolia ETH
+
+Common faucets:
+
+- [Alchemy Faucet](https://sepoliafaucet.com/)
+- [Infura Faucet](https://www.infura.io/faucet/sepolia)
+- [QuickNode Faucet](https://faucet.quicknode.com/ethereum/sepolia)
+- [Google Cloud Faucet](https://cloud.google.com/application/web3/faucet/ethereum/sepolia)
+
+## Notes
+
+- This is a **testnet-only** app. Do not use mainnet private keys.
+- Keep `.env` files out of version control.
+- Always confirm MetaMask is connected to Sepolia before transacting.
