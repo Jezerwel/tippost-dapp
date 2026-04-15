@@ -29,6 +29,14 @@ Creators publish image posts, and supporters tip directly on-chain (Sepolia) wit
 - Contract (Sepolia): `0x6b9088A547A650E9fD01Def9173652af5B8146cF`
 - Etherscan: [View contract](https://sepolia.etherscan.io/address/0x6b9088A547A650E9fD01Def9173652af5B8146cF)
 
+## Screenshots
+<img width="1920" height="1014" alt="image" src="https://github.com/user-attachments/assets/ac23d852-4a57-4388-bd95-e7b0b5fbe603" />
+<img width="1920" height="1014" alt="image" src="https://github.com/user-attachments/assets/337ff7e2-4158-42f5-9b49-68aebfcaa1e0" />
+<img width="1920" height="1014" alt="image" src="https://github.com/user-attachments/assets/008cfebc-2d5c-4777-b6d0-1a530516b23c" />
+<img width="1920" height="1014" alt="image" src="https://github.com/user-attachments/assets/49dc78d5-24b6-4ded-b6f8-c4b1331502e2" />
+<img width="856" height="301" alt="image" src="https://github.com/user-attachments/assets/93daf23a-4059-44d4-9c30-1b6e4397f5c5" />
+
+
 ## Prerequisites
 
 - Node.js 18+
